@@ -33,7 +33,7 @@ app_ui = ui.page_sidebar(
             choices={"scatter": "Scatter Plot", "histogram": "Histogram", "boxplot": "Box Plot"},
         ),
         ui.input_select("x_var", "X Variable:", choices=VARS, selected="bill_length_mm"),
-        ui.input_select("y_var", "Y Variable (for scatter):", choices=VARS, selected="flipper_length_mm"),
+        ui.input_select("y_var", "Y Variable:", choices=VARS, selected="flipper_length_mm"),
     ),
     ui.h2("Palmer Penguins Analysis"),
     ui.card(ui.card_header("Data Visualization"), ui.output_plot("penguin_plot")),
@@ -67,8 +67,8 @@ def server(input, output, session):
             sns.histplot(data=data, x=x, hue="species", bins=20, ax=ax)
             ax.set(xlabel=VARS[x])
         else:  # boxplot
-            sns.boxplot(data=data, x="species", y=x, ax=ax)
-            ax.set(ylabel=VARS[x])
+            sns.boxplot(data=data, x="species", y=y, ax=ax)
+            ax.set(ylabel=VARS[y])
 
         ax.set_title(f"Palmer Penguins - {input.plot_type().title()}")
         return fig

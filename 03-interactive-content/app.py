@@ -1,12 +1,11 @@
 from shiny import App, render, ui, reactive
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load the Palmer Penguins dataset
 penguins = sns.load_dataset("penguins").dropna()
 
-# Numeric variables available for plotting and summaries
+# Numeric variables available for plotting
 VARS = {
     "bill_length_mm": "Bill Length",
     "bill_depth_mm": "Bill Depth",
@@ -37,12 +36,7 @@ app_ui = ui.page_sidebar(
         ui.input_select("y_var", "Y Variable (for scatter):", choices=VARS, selected="flipper_length_mm"),
     ),
     ui.h2("Palmer Penguins Analysis"),
-    ui.layout_columns(
-        ui.card(ui.card_header("Data Visualization"), ui.output_plot("penguin_plot")),
-        ui.card(ui.card_header("Summary Statistics"), ui.output_table("summary_stats")),
-        col_widths=[8, 4],
-    ),
-    ui.card(ui.card_header("Data Preview"), ui.output_data_frame("data_preview")),
+    ui.card(ui.card_header("Data Visualization"), ui.output_plot("penguin_plot")),
 )
 
 
@@ -78,19 +72,6 @@ def server(input, output, session):
 
         ax.set_title(f"Palmer Penguins - {input.plot_type().title()}")
         return fig
-
-    @render.table
-    def summary_stats():
-        data = filtered_data()
-        if data.empty:
-            return pd.DataFrame({"Message": ["No data available for selected filters"]})
-        summary = data[list(VARS)].describe().round(2)
-        summary.index.name = "Statistic"
-        return summary
-
-    @render.data_frame
-    def data_preview():
-        return filtered_data().head(20)
 
 
 app = App(app_ui, server)

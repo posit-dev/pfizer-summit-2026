@@ -4,7 +4,7 @@ import time
 
 def main():
     print("Loading weather data...")
-    time.sleep(5)
+    time.sleep(2)
 
     # Load data
     df = pd.read_csv('weather.csv')
@@ -12,7 +12,7 @@ def main():
     time.sleep(3)
 
     print("Analyzing temperature patterns...")
-    time.sleep(8)
+    time.sleep(3)
 
     # Basic statistics
     avg_temp = df['temperature_f'].mean()
@@ -21,10 +21,10 @@ def main():
 
     print(f"Average temperature: {avg_temp:.1f}°F")
     print(f"Temperature range: {min_temp:.1f}°F to {max_temp:.1f}°F")
-    time.sleep(5)
+    time.sleep(3)
 
     print("Creating visualization...")
-    time.sleep(8)
+    time.sleep(3)
 
     # Create simple plot
     plt.figure(figsize=(10, 6))
@@ -35,11 +35,11 @@ def main():
     plt.tight_layout()
 
     print("Saving plot...")
-    time.sleep(5)
+    time.sleep(3)
     plt.savefig('weather_plot_py.png')
 
     print("Generating summary statistics...")
-    time.sleep(8)
+    time.sleep(3)
 
     # Weather condition summary
     summary = df.groupby('weather_condition')['temperature_f'].agg(['mean', 'count']).round(1)
